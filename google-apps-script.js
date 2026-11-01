@@ -1,18 +1,3 @@
-/**
- * Rishabh Growth Partners - Google Sheets Database Webhook
- * 
- * Instructions:
- * 1. Open your Google Sheet: https://docs.google.com/spreadsheets/d/1w7zPrXEA_uoQtRzM7XYw5O7vn_HZ9vGFLdHL7YNX44Y/edit
- * 2. Click Extensions > Apps Script
- * 3. Replace any code with this entire script and save (Ctrl + S)
- * 4. Click Deploy > New deployment
- * 5. Select type: Web app
- *    - Description: Rishabh Growth Partners Lead Form Webhook
- *    - Execute as: Me
- *    - Who has access: Anyone
- * 6. Click Deploy and copy the Web App URL.
- * 7. Paste that URL into index.html inside GOOGLE_SHEET_WEBAPP_URL variable.
- */
 
 const SHEET_NAME = 'Client Directory';
 
