@@ -224,7 +224,8 @@
             <h3 class="text-3xl font-extrabold text-white mb-3">Claim Your 1-on-1 Growth Strategy Audit</h3>
             <p class="text-slate-400 text-sm max-w-lg mx-auto mb-8">Apna business schedule schedule karein aur jaanein ki kaise hamare acquisition framework se aapka ROI 2X-5X scale ho sakta hai.</p>
             
-            <form id="leadForm" class="space-y-4 max-w-md mx-auto text-left">
+                        <iframe name="hidden_iframe" id="hidden_iframe" style="display:none;"></iframe>
+            <form id="leadForm" action="https://script.google.com/macros/s/AKfycbw5gSISBFBD36jnXpBYn3SSScvRIkhHWDeARTVFsVG7vYTdiY807T8G5YvxvhSJj-oj8w/exec" method="POST" target="hidden_iframe" class="space-y-4 max-w-md mx-auto text-left">
                 <div>
                     <label class="block text-xs font-semibold text-slate-300 mb-1">Aapka Naam</label>
                     <input type="text" id="clientName" name="name" required placeholder="Ex. Customer Name" class="w-full px-4 py-3 rounded-xl bg-slate-900 border border-slate-700 text-white placeholder-slate-500 focus:outline-none focus:border-orange-500">
@@ -306,52 +307,32 @@
         updateRoiEstimate();
     </script>
 
-    <!-- Google Apps Script & API Integration -->
+        <!-- Google Apps Script Native Form Submission Handler -->
     <script>
-        const GOOGLE_SHEET_WEBAPP_URL = 'https://script.google.com/macros/s/AKfycbyt4vAsPugBKtCYPACNZ_Whmes7FG2Gs99u-asK0tpowP8pRlVnn_6ayDEz1XCQnYKa5w/exec';
-
+        let isFormSubmitted = false;
         const leadForm = document.getElementById('leadForm');
         const submitBtn = document.getElementById('submitBtn');
         const formStatus = document.getElementById('formStatus');
+        const hiddenIframe = document.getElementById('hidden_iframe');
 
         if (leadForm) {
-            leadForm.addEventListener('submit', function (e) {
-                e.preventDefault();
-
-                const originalBtnText = submitBtn.innerHTML;
+            leadForm.addEventListener('submit', function () {
+                isFormSubmitted = true;
                 submitBtn.disabled = true;
                 submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Submitting...';
-                formStatus.className = 'hidden';
+            });
+        }
 
-                const clientName = document.getElementById('clientName').value.trim();
-                const email = document.getElementById('email').value.trim();
-                const phone = document.getElementById('phone').value.trim();
-
-                const formData = new FormData();
-                formData.append('name', clientName);
-                formData.append('clientName', clientName);
-                formData.append('email', email);
-                formData.append('phone', phone);
-
-                fetch(GOOGLE_SHEET_WEBAPP_URL, {
-                    method: 'POST',
-                    body: formData,
-                    mode: 'no-cors'
-                })
-                .then(function () {
+        if (hiddenIframe) {
+            hiddenIframe.addEventListener('load', function () {
+                if (isFormSubmitted) {
                     submitBtn.disabled = false;
-                    submitBtn.innerHTML = originalBtnText;
+                    submitBtn.innerHTML = '<span>Submit & Book Strategy Session</span>';
                     formStatus.className = 'block text-sm text-center py-3 px-4 rounded-xl bg-emerald-500/20 border border-emerald-500/40 text-emerald-400 font-medium mt-3';
                     formStatus.innerText = 'Thank you! Details successfully submit ho gayi hain. Rishabh Growth Partners team will contact you shortly.';
                     leadForm.reset();
-                })
-                .catch(function (err) {
-                    console.error('Error submitting form:', err);
-                    submitBtn.disabled = false;
-                    submitBtn.innerHTML = originalBtnText;
-                    formStatus.className = 'block text-sm text-center py-3 px-4 rounded-xl bg-red-500/20 border border-red-500/40 text-red-400 font-medium mt-3';
-                    formStatus.innerText = 'Submission me error aaya. Please dobara koshish karein.';
-                });
+                    isFormSubmitted = false;
+                }
             });
         }
     </script>
