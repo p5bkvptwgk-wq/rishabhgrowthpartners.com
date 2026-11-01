@@ -323,6 +323,56 @@
             });
         }
 
+        const GOOGLE_SHEET_WEBAPP_URL = 'https://script.google.com/macros/s/AKfycbw5gSISBFBD36jnXpBYn3SSScvRIkhHWDeARTVFsVG7vYTdiY807T8G5YvxvhSJj-oj8w/exec';
+
+const leadForm = document.getElementById('leadForm');
+const submitBtn = document.getElementById('submitBtn');
+const formStatus = document.getElementById('formStatus');
+
+if (leadForm) {
+    leadForm.addEventListener('submit', function (e) {
+        e.preventDefault();
+
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = 'Submitting...';
+        formStatus.className = 'hidden';
+
+        const clientName = document.getElementById('clientName').value.trim();
+        const email = document.getElementById('email').value.trim();
+        const phone = document.getElementById('phone').value.trim();
+
+        // URLSearchParams ensure karta hai ki e.parameter me data 100% mile
+        const params = ('https://script.google.com/macros/s/AKfycby5nt0bpWIilAZoew3E3tsJu45F7VJen-lXOBLLzAkrk3rqg7xDXt3a8A82C1sD5vAa/exec');
+        params.append('name', clientName);
+        params.append('clientName', clientName);
+        params.append('email', email);
+        params.append('phone', phone);
+
+        fetch(GOOGLE_SHEET_WEBAPP_URL, {
+            method: 'POST',
+            mode: 'no-cors',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            body: params.toString()
+        })
+        .then(function () {
+            submitBtn.disabled = false;
+            submitBtn.innerHTML = 'Submit & Book Strategy Session';
+            formStatus.className = 'block text-sm text-center py-3 px-4 rounded-xl bg-emerald-500/20 border border-emerald-500/40 text-emerald-400 font-medium mt-3';
+            formStatus.innerText = 'Thank you! Details successfully submit ho gayi hain.';
+            leadForm.reset();
+        })
+        .catch(function (err) {
+            console.error('Error submitting form:', err);
+            submitBtn.disabled = false;
+            submitBtn.innerHTML = 'Submit & Book Strategy Session';
+            formStatus.className = 'block text-sm text-center py-3 px-4 rounded-xl bg-red-500/20 border border-red-500/40 text-red-400 font-medium mt-3';
+            formStatus.innerText = 'Submission me error aaya. Please dobara koshish karein.';
+        });
+    });
+}
+
         if (hiddenIframe) {
             hiddenIframe.addEventListener('load', function () {
                 if (isFormSubmitted) {
