@@ -338,7 +338,7 @@
                 let sheetSuccess = false;
 
                 // 1. Google Sheets Web App ko bhejte hain (agar URL configured hai)
-                if (GOOGLE_SHEET_WEBAPP_URL && !GOOGLE_SHEET_WEBAPP_URL.includes('PASTE_YOUR_GOOGLE_APPS_SCRIPT')) {
+                if (GOOGLE_SHEET_WEBAPP_URL && !GOOGLE_SHEET_WEBAPP_URL.includes('https://script.google.com/macros/library/d/1A9D8YyWRAYFyNHAiVFuFN34UDsIDxGDunhDKX5C46LDdEkeS5DtWdzQY/4') {
                     try {
                         await fetch(GOOGLE_SHEET_WEBAPP_URL, {
                             method: 'POST',
