@@ -1,3 +1,588 @@
+
+Gemini
+
+New chat
+Library
+Images
+Scheduled
+Customise
+Videos
+New notebook
+isse file ka anusar mujha ek google sheet data base chaya vo tayar karo ya website github par publis
+i want users register data on google sheet by which user will register in this zip have a user regis
+Google Sheets Registration Setup
+Image Generation Refusal
+Instagram Caption Options for Agency
+Launching Desi Achar Business
+YouTube Ads Kaise Chalayein
+Rishabh Growth Partners Reel Script
+Growth-Driven Instagram Post Creation
+A Friendly Greeting and Offer
+Mata Rani Makeup Image Generation
+Image Generation Refusal
+Image Editing Injury Request Denied
+Realistic Hand Injury Generation
+Photorealistic Close-up Hand Cut Image
+Video Generation Request for School Promotion
+Motu Patlu Noida Vlog Selfie Animation
+Windows 11 Local Account Picture Remove
+Enhanced Cart with Payment & Returns
+iPhone 18 Launch Date Speculation
+How Can I Help You?
+Conversation with Gemini
+isse file ka anusar mujha ek google sheet data base chaya vo tayar karo ya website github par publish hai
+
+Aapke project Rishabh Growth Partners ke mutabiq Google Sheet database tayar kar diya gaya hai:
+
+Rishabh Growth Partners - Database
+
+Google Sheets icon
+Rishabh Growth Partners - Database
+ Google Sheets 
+Is Sheet Me Shamil Features:
+Website Leads & Inquiries Tab:
+
+Lead Capture Columns: ID, Date Received, Full Name, Email Address, Phone Number, Service Interested In, Message / Project Details, Lead Status, Follow-up Date, aur Notes.
+
+Interactive Dropdowns: Status field me dropdown chips (New, Contacted, In Progress, Closed, Lost) set kiye gaye hain.
+
+KPI Summary Dashboard: Live metrics jaise Total Inquiries, New Leads, Active Pipeline, aur Conversion Rate formulas ke sath configured hain.
+
+Services & Pricing Catalog Tab:
+
+Services ka complete structure jisme Growth Strategy Consulting, Performance Marketing, SEO & Content Strategy, aur Brand Scaling ke details, deliverables, timeline aur pricing shamil hain.
+
+Agar aap chahte hain ki isme website contact form se aane wale data ke liye Google Apps Script / Webhook integrate kiya jaye, toh batayein!
+
+sheet ma shirf date mail id sr number client name & phone number chaya or isse sheet ko data base kaisa banaya
+
+Aapki sheet ko update kar diya gaya hai aur ab isme sirf wahi 5 columns rakhe gaye hain jo aapne mange the:
+
+Rishabh Growth Partners - Database
+
+
+Sheet me shamil columns:
+
+Sr. No.
+
+Date
+
+Client Name
+
+Email ID
+
+Phone Number
+
+Is Sheet Ko Website Ke Sath Real Database Kaise Banayein (Direct Connection)?
+Agar aap chahte hain ki GitHub par hosted website ke form se log data submit karein aur wo seedhe is Google Sheet me aa jaye, toh sabse asaan aur secure tareeqa Google Apps Script use karna hai.
+
+Neeche diye gaye steps follow karein:
+
+Step 1: Google Apps Script Webhook Setup Karein
+Apni Google Sheet kholein.
+
+Upar menu me Extensions par click karein aur Apps Script select karein.
+
+Wahan pehle se likha hua code hatakar ye code paste karein:
+
+JavaScript
+const sheetName = 'Client Directory';
+
+function doPost(e) {
+  try {
+    const sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(sheetName) || SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
+    const data = JSON.parse(e.postData.contents);
+    
+    // Auto Serial Number
+    const lastRow = sheet.getLastRow();
+    const srNo = lastRow > 4 ? (lastRow - 4) + 1 : 1;
+    
+    // Aaj ki current date (YYYY-MM-DD)
+    const today = new Date().toISOString().split('T')[0];
+    
+    // Row append karein
+    sheet.appendRow([
+      srNo,
+      today,
+      data.clientName || '',
+      data.email || '',
+      data.phone || ''
+    ]);
+    
+    return ContentService.createTextOutput(JSON.stringify({ result: 'success' }))
+      .setMimeType(ContentService.MimeType.JSON);
+  } catch (error) {
+    return ContentService.createTextOutput(JSON.stringify({ result: 'error', error: error.message }))
+      .setMimeType(ContentService.MimeType.JSON);
+  }
+}
+Step 2: Script Ko Deploy Karein
+Apps Script ke upar right corner me Deploy > New deployment par click karein.
+
+Gear icon (⚙️) par click karke Web app chunein.
+
+Description me likhein: Website Leads Webhook.
+
+Execute as: Me (your email).
+
+Who has access: Anyone select karein (taaki GitHub website se form bina Google login ke submit ho sake).
+
+Deploy par click karein aur permission grant karein.
+
+Deployment ke baad aapko ek Web app URL milega, use copy kar lein.
+
+Step 3: Apni Website (GitHub / HTML Form) me JavaScript Lagayein
+Apne website ke HTML/JS file me contact form submit hone par ye code add karein:
+
+JavaScript
+const form = document.querySelector('form'); // Apne form ka selector dalein
+const scriptURL = 'YAHAN_APNA_WEB_APP_URL_PASTE_KAREIN';
+
+form.addEventListener('submit', (e) => {
+  e.preventDefault();
+
+  const payload = {
+    clientName: document.getElementById('name').value,
+    email: document.getElementById('email').value,
+    phone: document.getElementById('phone').value
+  };
+
+  fetch(scriptURL, {
+    method: 'POST',
+    mode: 'no-cors',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(payload)
+  })
+  .then(() => {
+    alert('Details successfully submit ho gayi hain!');
+    form.reset();
+  })
+  .catch((error) => console.error('Error!', error));
+});
+Jaise hi koi website par apna naam, email, aur phone number daal kar submit karega, Google Sheet me naya serial number aur date ke sath row automatically add ho jayegi.
+
+Kya aap chahte hain ki aapki index.html file ke contact form ke hisab se exact code adjust karke de diya jaye?
+
+update kr ke zip provide kro
+
+Aapka updated code package tayar hai:
+
+Your ZIP file is ready
+
+ZIP icon
+rishabhgrowthpartners-updated
+ ZIP 
+Is Updated Package Me Kya Changes Kiye Gaye Hain:
+index.html (Form & Direct Google Sheet Integration):
+
+Contact form me id="leadForm", field IDs (clientName, email, phone), aur loading spinner ke sath dynamic submission state joda gaya hai.
+
+Direct integration script add kiya gaya hai, jo form submit hone par Google Sheet me data bhejta hai aur user ko clean success notification dikhata hai.
+
+google-apps-script.js (Ready-made Webhook Script):
+
+Yeh file package ke andar add kar di gayi hai. Iska code aapko apni Google Sheet ke Extensions > Apps Script me paste karke Deploy karna hai.
+
+Yeh script naye submission aane par automatic Sr. No. calculate karegi, Date lagayegi, aur Client Name, Email ID, aur Phone Number ko aapki sheet me row-by-row append karegi.
+
+README.md (Step-by-Step Instructions):
+
+Google Apps Script deploy karne aur URL ko index.html me paste karke GitHub par publish karne ke aasan steps diye gaye hain.
+
+Setup Karne Ke 2 Simple Steps:
+Apni Rishabh Growth Partners Google Sheet me Extensions > Apps Script kholein, zip ke andar di gayi google-apps-script.js ka code paste karein, aur Deploy > New deployment (Web app, Anyone) par click karke Web App URL copy karein.
+
+index.html me GOOGLE_SHEET_WEBAPP_URL variable ki jagah apna Web App URL paste karke GitHub repo par push kar dein.
+
+Aapke GitHub repository (p5bkvptwgk-wq/rishabhgrowthpartners) par GitHub Pages ka build aur deployment successfully pass (Green Checkmark) ho gaya hai.   
+image_e4ce29.jpg
+
+Aapki website ka live link yeh hai:
+👉 [https://p5bkvptwgk-wq.github.io/rishabhgrowthpartners/](https://p5bkvptwgk-wq.github.io/rishabhgrowthpartners/)
+
+Ab Form Ko Google Sheet Se Connect Karne Ka Akhri Step:
+Aapne jo files deploy ki hain, unka data sheet me lane ke liye sirf yeh do steps complete karein:
+
+Apps Script Deploy Karein:
+
+Apni Rishabh Growth Partners Google Sheet kholein.
+
+Upar menu se Extensions > Apps Script par click karein.
+
+google-apps-script.js ka code paste karein aur Save karein.   
+rishabhgrowthpartners-updated.zip
+
+Upar right me Deploy > New deployment par jayein:
+
+Type: Web app
+
+Execute as: Me
+
+Who has access: Anyone
+
+Deploy click karke jo Web app URL mile, use copy kar lein.
+
+GitHub Par URL Update Karein:
+
+GitHub repo par jaakar index.html file kholein aur Edit (pencil icon ✏️) par click karein.
+
+File ke end me GOOGLE_SHEET_WEBAPP_URL variable me apna Apps Script wala URL paste karein:
+
+JavaScript
+const GOOGLE_SHEET_WEBAPP_URL = 'https://script.google.com/macros/s/AKfycb.../exec';
+Commit changes kar dein.
+
+Jaise hi naya build complete hoga, website ke form par aane wala har submission (Sr. No., Date, Name, Email, Phone Number) seedhe aapki Google Sheet me save hone lagega.
+
+make html full file
+
+Aapki screenshot me diye gaye Apps Script Deployment URL ke sath complete index.html file integrate kar di gayi hai:   
+Screenshot 2026-11-01 172723.jpg
+
+Your HTML file is ready
+
+HTML icon
+index
+ HTML 
+Is File Me Configured Details:
+Webhook URL: [https://script.google.com/macros/s/AKfycbw5gSISBFBD36jnXpBYn3SSScvRIkhHWDeARTVFsVG7vYTdiY807T8G5YvxvhSJj-oj8w/exec](https://script.google.com/macros/s/AKfycbw5gSISBFBD36jnXpBYn3SSScvRIkhHWDeARTVFsVG7vYTdiY807T8G5YvxvhSJj-oj8w/exec)   
+Screenshot 2026-11-01 172723.jpg
+
+Form Submission: Jab bhi koi user website par apna Name, Email, aur Phone Number daal kar click karega, script automatically aapki Google Sheet me Sr. No. aur current Date ke sath data add kar degi.
+
+User Feedback: Form submit hote hi button par spinner aayega aur green success message "Thank you! Details successfully submit ho gayi hain" dikhega.
+
+GitHub Par Update Kaise Karein:
+Apni GitHub repository par index.html open karein.
+
+Edit (✏️ pencil icon) par click karke sara purana code select-all karke delete karein.
+
+Is nayi download ki gayi index.html ka pura code paste karein aur Commit changes kar dein.
+
+chal nhi raha yha karna ka baad bhi
+
+Google Apps Script me form submit na hone ya data sheet me na aane ke 2 sabse aam kaaran hote hain:
+
+Kaaran 1: Apps Script me Permission Allow (Authorize) nahi hui
+Jab pehli baar script deploy karte hain, Google aapse ek baar data write karne ki permission maangta hai:
+
+Google Sheet me jayein -> Extensions > Apps Script.
+
+Upar dropdown me jahan doGet ya function select hota hai, wahan doPost ya koi function select karke Run (▷) par click karein.
+
+Ek popup aayega: "Authorization required" -> Review permissions par click karein.
+
+Apna Google Account select karein.
+
+Agar "Google hasn't verified this app" dikhe, toh neeche Advanced par click karein -> Go to Untitled project (unsafe) par click karein.
+
+Allow par click karein.
+
+Kaaran 2: Form Data CORS / Payload mismatch
+Google Apps Script Web App standard JSON.parse(e.postData.contents) par kabhi-kabhi browser ke no-cors mode me data receive nahi kar pata agar FormData use na ho.
+
+Sabse reliable tareeqa yeh hai:
+
+1. Apps Script ka Code update karein:
+Apps Script editor me pura code replace karke yeh daalein:
+
+JavaScript
+function doPost(e) {
+  var lock = LockService.getScriptLock();
+  lock.tryLock(10000);
+
+  try {
+    var ss = SpreadsheetApp.getActiveSpreadsheet();
+    var sheet = ss.getSheetByName('Client Directory') || ss.getSheets()[0];
+
+    // Data read karein (FormData ya JSON dono support karega)
+    var clientName = (e.parameter && e.parameter.name) || (e.parameter && e.parameter.clientName) || '';
+    var email = (e.parameter && e.parameter.email) || '';
+    var phone = (e.parameter && e.parameter.phone) || '';
+
+    if (!clientName && e.postData && e.postData.contents) {
+      try {
+        var parsed = JSON.parse(e.postData.contents);
+        clientName = parsed.clientName || parsed.name || '';
+        email = parsed.email || '';
+        phone = parsed.phone || '';
+      } catch (err) {}
+    }
+
+    var lastRow = sheet.getLastRow();
+    // Headers Row 4 par hain, toh 5th row se 1 shuru hoga
+    var srNo = lastRow >= 4 ? (lastRow - 4) + 1 : 1;
+    var today = Utilities.formatDate(new Date(), Session.getScriptTimeZone() || 'Asia/Kolkata', 'yyyy-MM-dd');
+
+    sheet.appendRow([srNo, today, clientName, email, phone]);
+
+    return ContentService.createTextOutput(JSON.stringify({ result: 'success' }))
+      .setMimeType(ContentService.MimeType.JSON);
+  } catch (error) {
+    return ContentService.createTextOutput(JSON.stringify({ result: 'error', error: error.toString() }))
+      .setMimeType(ContentService.MimeType.JSON);
+  } finally {
+    lock.releaseLock();
+  }
+}
+Zaroori: Code save karne ke baad Deploy > Manage deployments > ✏️ (Pencil icon) par click karein -> Version ko "New version" select karke Deploy karein. (Agar New version nahi select karenge toh purana code hi chalta rahega).
+
+2. Website (index.html) ka Form Script:
+Apni index.html me script tag ke andar ye simplified submission function replace karein:
+
+JavaScript
+const GOOGLE_SHEET_WEBAPP_URL = 'https://script.google.com/macros/s/AKfycbw5gSISBFBD36jnXpBYn3SSScvRIkhHWDeARTVFsVG7vYTdiY807T8G5YvxvhSJj-oj8w/exec';
+
+const leadForm = document.getElementById('leadForm');
+const submitBtn = document.getElementById('submitBtn');
+const formStatus = document.getElementById('formStatus');
+
+if (leadForm) {
+    leadForm.addEventListener('submit', function (e) {
+        e.preventDefault();
+
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = 'Submitting...';
+
+        const formData = new FormData();
+        formData.append('name', document.getElementById('clientName').value.trim());
+        formData.append('email', document.getElementById('email').value.trim());
+        formData.append('phone', document.getElementById('phone').value.trim());
+
+        fetch(GOOGLE_SHEET_WEBAPP_URL, {
+            method: 'POST',
+            body: formData,
+            mode: 'no-cors'
+        })
+        .then(() => {
+            submitBtn.disabled = false;
+            submitBtn.innerHTML = 'Submit & Book Strategy Session';
+            formStatus.className = 'block text-sm text-center py-3 px-4 rounded-xl bg-emerald-500/20 border border-emerald-500/40 text-emerald-400 font-medium mt-3';
+            formStatus.innerText = 'Thank you! Details successfully submit ho gayi hain.';
+            leadForm.reset();
+        })
+        .catch((err) => {
+            console.error(err);
+            submitBtn.disabled = false;
+            submitBtn.innerHTML = 'Submit & Book Strategy Session';
+            alert('Submission error. Please try again.');
+        });
+    });
+}
+Jab aap form submit karte hain, kya button par koi error ya message aata hai, ya Google Sheet me row add nahi ho rahi hai?
+
+Aapki screenshot me deployment is wajah se cancel hui hai kyunki naya commit aane par purana chal raha deployment automatically "Canceled" ho gaya (Error: The operation was canceled).   
+image_e3e5ea.jpg
+
+Isko theek karne ke liye:
+
+Isi page par upar right side me "Re-run jobs" (ya "Re-run all jobs") ka button hoga, us par click karein.
+
+Ya fir Actions tab par jayein aur jo sabse top/latest run hai use open karein (pehle wali screenshot me jo latest build tha wo green tick pass ho chuka tha).   
+image_e4ce29.jpg
+
+Jab deployment complete ho jaye (green check mark), tab website link par jayein:
+👉 [https://p5bkvptwgk-wq.github.io/rishabhgrowthpartners/](https://p5bkvptwgk-wq.github.io/rishabhgrowthpartners/)
+
+Agar tab bhi purana page ya purana form dikhe, toh browser cache clear karne ke liye Ctrl + Shift + R (Hard Refresh) press karein.
+
+Jab aap form par naam, email aur number daal kar submit karte hain, kya button ke neeche green message aata hai?
+
+sirf date aaya rahi hai baki details nhi aaya rahi
+
+Google Sheet me sirf Date aane aur baaki details (Name, Email, Phone) blank aane ka kaaran yeh hai ki Google Apps Script me e.postData.contents ka raw JSON read nahi ho pa raha ya parameter names match nahi kar rahe.
+
+Is issue ko 100% solve karne ke liye niche diye gaye 2 steps complete karein:
+
+Step 1: Apps Script Code ko Update Karein
+Google Sheet me Extensions > Apps Script kholein aur pura code replace karke yeh daalein:
+
+JavaScript
+function doPost(e) {
+  var lock = LockService.getScriptLock();
+  lock.tryLock(10000);
+
+  try {
+    var ss = SpreadsheetApp.getActiveSpreadsheet();
+    var sheet = ss.getSheetByName('Client Directory') || ss.getSheets()[0];
+
+    var clientName = '';
+    var email = '';
+    var phone = '';
+
+    // 1. Agar FormData / URL-encoded parameters aaye hain:
+    if (e.parameter) {
+      clientName = e.parameter.name || e.parameter.clientName || '';
+      email = e.parameter.email || '';
+      phone = e.parameter.phone || '';
+    }
+
+    // 2. Agar JSON body aayi hai:
+    if ((!clientName || !email || !phone) && e.postData && e.postData.contents) {
+      try {
+        var parsed = JSON.parse(e.postData.contents);
+        clientName = parsed.clientName || parsed.name || clientName;
+        email = parsed.email || email;
+        phone = parsed.phone || phone;
+      } catch (err) {}
+    }
+
+    // Serial Number aur Current Date
+    var lastRow = sheet.getLastRow();
+    var srNo = lastRow >= 4 ? (lastRow - 4) + 1 : 1;
+    var today = Utilities.formatDate(new Date(), Session.getScriptTimeZone() || 'Asia/Kolkata', 'yyyy-MM-dd');
+
+    // Data append karein
+    sheet.appendRow([srNo, today, clientName, email, phone]);
+
+    return ContentService.createTextOutput(JSON.stringify({ result: 'success' }))
+      .setMimeType(ContentService.MimeType.JSON);
+  } catch (error) {
+    return ContentService.createTextOutput(JSON.stringify({ result: 'error', message: error.toString() }))
+      .setMimeType(ContentService.MimeType.JSON);
+  } finally {
+    lock.releaseLock();
+  }
+}
+Important (Deploy New Version):
+Code Save karein -> Deploy > Manage deployments par click karein -> Pencil icon (✏️ Edit) par click karein -> Version dropdown me "New version" select karein -> Deploy par click karein.
+
+Step 2: index.html me Form Submit Script Update Karein
+index.html ke sabse last me jahan form submit ka script hai, wahan fetch request ko FormData ke sath aise update karein:
+
+JavaScript
+const GOOGLE_SHEET_WEBAPP_URL = 'https://script.google.com/macros/s/AKfycbw5gSISBFBD36jnXpBYn3SSScvRIkhHWDeARTVFsVG7vYTdiY807T8G5YvxvhSJj-oj8w/exec';
+
+const leadForm = document.getElementById('leadForm');
+const submitBtn = document.getElementById('submitBtn');
+const formStatus = document.getElementById('formStatus');
+
+if (leadForm) {
+    leadForm.addEventListener('submit', function (e) {
+        e.preventDefault();
+
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = 'Submitting...';
+        formStatus.className = 'hidden';
+
+        const formData = new FormData();
+        formData.append('name', document.getElementById('clientName').value.trim());
+        formData.append('email', document.getElementById('email').value.trim());
+        formData.append('phone', document.getElementById('phone').value.trim());
+
+        fetch(GOOGLE_SHEET_WEBAPP_URL, {
+            method: 'POST',
+            body: formData,
+            mode: 'no-cors'
+        })
+        .then(() => {
+            submitBtn.disabled = false;
+            submitBtn.innerHTML = 'Submit & Book Strategy Session';
+            formStatus.className = 'block text-sm text-center py-3 px-4 rounded-xl bg-emerald-500/20 border border-emerald-500/40 text-emerald-400 font-medium mt-3';
+            formStatus.innerText = 'Thank you! Details successfully submit ho gayi hain.';
+            leadForm.reset();
+        })
+        .catch((err) => {
+            console.error(err);
+            submitBtn.disabled = false;
+            submitBtn.innerHTML = 'Submit & Book Strategy Session';
+            alert('Submission error. Please try again.');
+        });
+    });
+}
+Is change ke baad FormData direct parameters me jayega aur Name, Email, aur Phone Number bina kisi issue ke Google Sheet me add hone lagenge.
+
+Kya aap chahte hain ki main updated index.html file ka direct download link provide kar doon taaki aap seedhe replace kar sakein?
+
+kara do
+
+Aapki updated index.html file ready hai:
+
+Your HTML file is ready
+
+HTML icon
+index
+ HTML 
+Ab Sheet me Name, Email aur Phone Number aane ke liye ye 2 steps karein:
+Step 1: Google Apps Script ko Update aur New Version Deploy Karein
+(Pehle wala script sirf JSON dhoondh raha tha, isliye Name/Email/Phone miss ho rahe the. Yeh script FormData ko direct accept karegi):
+
+Apni Google Sheet me Extensions > Apps Script kholein.
+
+Purana code hata kar yeh code paste karein:
+
+JavaScript
+function doPost(e) {
+  var lock = LockService.getScriptLock();
+  lock.tryLock(10000);
+
+  try {
+    var ss = SpreadsheetApp.getActiveSpreadsheet();
+    var sheet = ss.getSheetByName('Client Directory') || ss.getSheets()[0];
+
+    var clientName = '';
+    var email = '';
+    var phone = '';
+
+    // FormData / URL parameters read karein
+    if (e.parameter) {
+      clientName = e.parameter.name || e.parameter.clientName || '';
+      email = e.parameter.email || '';
+      phone = e.parameter.phone || '';
+    }
+
+    // Fallback agar JSON aayi ho
+    if ((!clientName || !email || !phone) && e.postData && e.postData.contents) {
+      try {
+        var parsed = JSON.parse(e.postData.contents);
+        clientName = parsed.clientName || parsed.name || clientName;
+        email = parsed.email || email;
+        phone = parsed.phone || phone;
+      } catch (err) {}
+    }
+
+    var lastRow = sheet.getLastRow();
+    var srNo = lastRow >= 4 ? (lastRow - 4) + 1 : 1;
+    var today = Utilities.formatDate(new Date(), Session.getScriptTimeZone() || 'Asia/Kolkata', 'yyyy-MM-dd');
+
+    // Row append karein
+    sheet.appendRow([srNo, today, clientName, email, phone]);
+
+    return ContentService.createTextOutput(JSON.stringify({ result: 'success' }))
+      .setMimeType(ContentService.MimeType.JSON);
+  } catch (error) {
+    return ContentService.createTextOutput(JSON.stringify({ result: 'error', message: error.toString() }))
+      .setMimeType(ContentService.MimeType.JSON);
+  } finally {
+    lock.releaseLock();
+  }
+}
+Save karein (Ctrl + S).
+
+Deploy > Manage deployments par click karein:
+
+Edit (✏️ pencil icon) par click karein.
+
+Version dropdown me "New version" select karein.
+
+Deploy par click karein.
+
+Step 2: GitHub Par Yeh index.html Replace Karein
+Upar di gayi index.html file download karein ya copy karein.
+
+Apni GitHub repo par index.html khol kar replace karein aur Commit changes kar dein.
+
+1 minute baad apni live site ko Ctrl + Shift + R (hard reload) karke test karein. Name, Email, aur Phone Number ab seedhe sheet me aayenge.
+
+
+
+
+
+Gemini is AI and can make mistakes.
+
+Analysing
 <!DOCTYPE html>
 <html lang="en" class="scroll-smooth">
 <head>
@@ -310,63 +895,53 @@
     <script>
         const GOOGLE_SHEET_WEBAPP_URL = 'https://script.google.com/macros/s/AKfycbw5gSISBFBD36jnXpBYn3SSScvRIkhHWDeARTVFsVG7vYTdiY807T8G5YvxvhSJj-oj8w/exec';
 
-const leadForm = document.getElementById('leadForm');
-const submitBtn = document.getElementById('submitBtn');
-const formStatus = document.getElementById('formStatus');
+        const leadForm = document.getElementById('leadForm');
+        const submitBtn = document.getElementById('submitBtn');
+        const formStatus = document.getElementById('formStatus');
 
-if (leadForm) {
-    leadForm.addEventListener('submit', function (e) {
-        e.preventDefault();
+        if (leadForm) {
+            leadForm.addEventListener('submit', function (e) {
+                e.preventDefault();
 
-        submitBtn.disabled = true;
-        submitBtn.innerHTML = 'Submitting...';
-        formStatus.className = 'hidden';
+                const originalBtnText = submitBtn.innerHTML;
+                submitBtn.disabled = true;
+                submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Submitting...';
+                formStatus.className = 'hidden';
 
-        const formData = new FormData();
-        formData.append('name', document.getElementById('clientName').value.trim());
-        formData.append('email', document.getElementById('email').value.trim());
-        formData.append('phone', document.getElementById('phone').value.trim());
+                const clientName = document.getElementById('clientName').value.trim();
+                const email = document.getElementById('email').value.trim();
+                const phone = document.getElementById('phone').value.trim();
 
-        fetch(GOOGLE_SHEET_WEBAPP_URL, {
-            method: 'POST',
-            body: formData,
-            mode: 'no-cors'
-        })
-        .then(() => {
-            submitBtn.disabled = false;
-            submitBtn.innerHTML = 'Submit & Book Strategy Session';
-            formStatus.className = 'block text-sm text-center py-3 px-4 rounded-xl bg-emerald-500/20 border border-emerald-500/40 text-emerald-400 font-medium mt-3';
-            formStatus.innerText = 'Thank you! Details successfully submit ho gayi hain.';
-            leadForm.reset();
-        })
-        .catch((err) => {
-            console.error(err);
-            submitBtn.disabled = false;
-            submitBtn.innerHTML = 'Submit & Book Strategy Session';
-            alert('Submission error. Please try again.');
-        });
-    });
-}
-                // 2. Local Node/Express Backend (server.js /api/leads) agar available ho
-                try {
-                    await fetch('/api/leads', {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify(payload)
-                    });
-                } catch (e) {
-                    // Agar static GitHub Pages par hai toh server endpoint fail hona normal hai
-                }
+                const formData = new FormData();
+                formData.append('name', clientName);
+                formData.append('clientName', clientName);
+                formData.append('email', email);
+                formData.append('phone', phone);
 
-                submitBtn.disabled = false;
-                submitBtn.innerHTML = originalBtnText;
-
-                formStatus.className = 'block text-sm text-center py-3 px-4 rounded-xl bg-emerald-500/20 border border-emerald-500/40 text-emerald-400 font-medium mt-3';
-                formStatus.innerText = 'Thank you! Details successfully submit ho gayi hain. Rishabh Growth Partners team will contact you shortly.';
-                leadForm.reset();
+                fetch(GOOGLE_SHEET_WEBAPP_URL, {
+                    method: 'POST',
+                    body: formData,
+                    mode: 'no-cors'
+                })
+                .then(function () {
+                    submitBtn.disabled = false;
+                    submitBtn.innerHTML = originalBtnText;
+                    formStatus.className = 'block text-sm text-center py-3 px-4 rounded-xl bg-emerald-500/20 border border-emerald-500/40 text-emerald-400 font-medium mt-3';
+                    formStatus.innerText = 'Thank you! Details successfully submit ho gayi hain. Rishabh Growth Partners team will contact you shortly.';
+                    leadForm.reset();
+                })
+                .catch(function (err) {
+                    console.error('Error submitting form:', err);
+                    submitBtn.disabled = false;
+                    submitBtn.innerHTML = originalBtnText;
+                    formStatus.className = 'block text-sm text-center py-3 px-4 rounded-xl bg-red-500/20 border border-red-500/40 text-red-400 font-medium mt-3';
+                    formStatus.innerText = 'Submission me error aaya. Please dobara koshish karein.';
+                });
             });
         }
     </script>
 </body>
 
 </html>
+index.html
+Displaying index.html.
