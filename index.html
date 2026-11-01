@@ -308,50 +308,45 @@
 
     <!-- Google Apps Script & API Integration -->
     <script>
-        // NOTE: Google Apps Script Web App URL yahan daalein (Deploy karne ke baad)
-        const GOOGLE_SHEET_WEBAPP_URL = 'PASTE_YOUR_GOOGLE_APPS_SCRIPT_WEB_APP_URL_HERE';
+        const GOOGLE_SHEET_WEBAPP_URL = 'https://script.google.com/macros/s/AKfycbw5gSISBFBD36jnXpBYn3SSScvRIkhHWDeARTVFsVG7vYTdiY807T8G5YvxvhSJj-oj8w/exec';
 
-        const leadForm = document.getElementById('leadForm');
-        const submitBtn = document.getElementById('submitBtn');
-        const formStatus = document.getElementById('formStatus');
+const leadForm = document.getElementById('leadForm');
+const submitBtn = document.getElementById('submitBtn');
+const formStatus = document.getElementById('formStatus');
 
-        if (leadForm) {
-            leadForm.addEventListener('submit', async function (e) {
-                e.preventDefault();
+if (leadForm) {
+    leadForm.addEventListener('submit', function (e) {
+        e.preventDefault();
 
-                const originalBtnText = submitBtn.innerHTML;
-                submitBtn.disabled = true;
-                submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Submitting...';
-                formStatus.className = 'hidden';
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = 'Submitting...';
+        formStatus.className = 'hidden';
 
-                const clientName = document.getElementById('clientName').value.trim();
-                const email = document.getElementById('email').value.trim();
-                const phone = document.getElementById('phone').value.trim();
+        const formData = new FormData();
+        formData.append('name', document.getElementById('clientName').value.trim());
+        formData.append('email', document.getElementById('email').value.trim());
+        formData.append('phone', document.getElementById('phone').value.trim());
 
-                const payload = {
-                    clientName: clientName,
-                    name: clientName,
-                    email: email,
-                    phone: phone
-                };
-
-                let sheetSuccess = false;
-
-                // 1. Google Sheets Web App ko bhejte hain (agar URL configured hai)
-                if (GOOGLE_SHEET_WEBAPP_URL && !GOOGLE_SHEET_WEBAPP_URL.includes('https://script.google.com/macros/library/d/1A9D8YyWRAYFyNHAiVFuFN34UDsIDxGDunhDKX5C46LDdEkeS5DtWdzQY/4') {
-                    try {
-                        await fetch(GOOGLE_SHEET_WEBAPP_URL, {
-                            method: 'POST',
-                            mode: 'no-cors',
-                            headers: { 'Content-Type': 'application/json' },
-                            body: JSON.stringify(payload)
-                        });
-                        sheetSuccess = true;
-                    } catch (err) {
-                        console.error('Google Sheet Submission Error:', err);
-                    }
-                }
-
+        fetch(GOOGLE_SHEET_WEBAPP_URL, {
+            method: 'POST',
+            body: formData,
+            mode: 'no-cors'
+        })
+        .then(() => {
+            submitBtn.disabled = false;
+            submitBtn.innerHTML = 'Submit & Book Strategy Session';
+            formStatus.className = 'block text-sm text-center py-3 px-4 rounded-xl bg-emerald-500/20 border border-emerald-500/40 text-emerald-400 font-medium mt-3';
+            formStatus.innerText = 'Thank you! Details successfully submit ho gayi hain.';
+            leadForm.reset();
+        })
+        .catch((err) => {
+            console.error(err);
+            submitBtn.disabled = false;
+            submitBtn.innerHTML = 'Submit & Book Strategy Session';
+            alert('Submission error. Please try again.');
+        });
+    });
+}
                 // 2. Local Node/Express Backend (server.js /api/leads) agar available ho
                 try {
                     await fetch('/api/leads', {
